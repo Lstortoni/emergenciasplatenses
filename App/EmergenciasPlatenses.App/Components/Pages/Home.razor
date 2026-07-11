@@ -4,15 +4,24 @@
 <PageTitle>Emergencias Platenses</PageTitle>
 
 <section class="home-header">
-    <span class="home-brand">EMERGENCIAS PLATENSES</span>
+    <span class="home-eyebrow">Servicios de emergencia</span>
     <h1>¿Qué necesitás hoy?</h1>
-    <p>Encontrá rápidamente un servicio de emergencia en La Plata.</p>
+    <p>Encontrá ayuda confiable en La Plata en pocos segundos.</p>
+
+    <div class="search-preview" aria-label="La búsqueda se habilitará próximamente">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="11" cy="11" r="7" />
+            <path d="m20 20-4-4" />
+        </svg>
+        <span>Buscar servicios...</span>
+        <small>Próximamente</small>
+    </div>
 </section>
 
 <section>
     <div class="section-title">
         <h2>Categorías</h2>
-        <span>Servicios disponibles</span>
+        <span>@_categorias.Count disponibles</span>
     </div>
 
     @if (_cargando)
@@ -36,11 +45,13 @@
         <div class="category-grid">
             @foreach (var categoria in _categorias)
             {
-                <article class="category-card">
-                    <div class="category-icon">@ObtenerInicial(categoria.Nombre)</div>
+                <a class="category-card" href="@($"/comercios/{categoria.Id}")">
+                    <div class="category-icon">
+                        <CategoriaIcon Nombre="@categoria.Icono" Descripcion="@categoria.Nombre" />
+                    </div>
                     <strong>@categoria.Nombre</strong>
-                    <span>@categoria.Descripcion</span>
-                </article>
+                    <small>Ver servicios</small>
+                </a>
             }
         </div>
     }
@@ -78,7 +89,4 @@
             _cargando = false;
         }
     }
-
-    private static string ObtenerInicial(string nombre) =>
-        string.IsNullOrWhiteSpace(nombre) ? "?" : nombre[..1].ToUpperInvariant();
 }

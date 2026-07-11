@@ -1,0 +1,130 @@
+@page "/comercios/{CategoriaId:int}"
+@inject IEmergenciasApiClient ApiClient
+
+<PageTitle>@(_categoria?.Nombre ?? "Comercios") - Emergencias Platenses</PageTitle>
+
+<NavLink class="back-link" href="/">← Volver al inicio</NavLink>
+
+<header class="results-header">
+    <span class="eyebrow">Resultados</span>
+    <h1>@(_categoria?.Nombre ?? "Comercios")</h1>
+
+    @if (!_cargando && _mensajeError is null)
+    {
+        <p>@ObtenerResumenResultados()</p>
+    }
+</header>
+
+@if (_cargando)
+{
+    <div class="status-card">Cargando comercios...</div>
+}
+else if (_mensajeError is not null)
+{
+    <div class="status-card error">
+        <strong>No pudimos conectar con la API.</strong>
+        <span>@_mensajeError</span>
+        <button @onclick="CargarDatosAsync">Reintentar</button>
+    </div>
+}
+else if (_categoria is null)
+{
+    <div class="status-card">
+        <strong>La categoría no existe.</strong>
+        <span>Volvé al inicio para seleccionar otra categoría.</span>
+    </div>
+}
+else if (_comercios.Count == 0)
+{
+    <div class="status-card empty">
+        <strong>No encontramos comercios disponibles.</strong>
+        <span>Todavía no hay servicios cargados en esta categoría.</span>
+    </div>
+}
+else
+{
+    <div class="commerce-list">
+        @foreach (var comercio in _comercios)
+        {
+            <article class="commerce-card">
+                <div class="commerce-heading">
+                    <div>
+                        <span class="category-name">@comercio.Categoria</span>
+                        <h2>@comercio.Nombre</h2>
+                    </div>
+
+                    @if (comercio.EstaDeTurno)
+                    {
+                        <span class="on-duty">De turno</span>
+                    }
+                </div>
+
+                <p class="address">@comercio.Direccion</p>
+
+                @if (!string.IsNullOrWhiteSpace(comercio.Telefono))
+                {
+                    <p class="phone">Teléfono: @comercio.Telefono</p>
+                }
+
+                <span class="detail-hint">Detalle disponible en el próximo paso</span>
+            </article>
+        }
+    </div>
+}
+
+@code {
+    [Parameter]
+    public int CategoriaId { get; set; }
+
+    private Categoria? _categoria;
+    private IReadOnlyCollection<ComercioResumen> _comercios = [];
+    private bool _cargando = true;
+    private string? _mensajeError;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        await CargarDatosAsync();
+    }
+
+    private async Task CargarDatosAsync()
+    {
+        _cargando = true;
+        _mensajeError = null;
+        _categoria = null;
+        _comercios = [];
+
+        try
+        {
+            var categoriasTask = ApiClient.ObtenerCategoriasAsync();
+            var comerciosTask = ApiClient.ObtenerComerciosAsync(categoriaId: CategoriaId);
+
+            await Task.WhenAll(categoriasTask, comerciosTask);
+
+            var categorias = await categoriasTask;
+            _categoria = categorias.FirstOrDefault(categoria => categoria.Id == CategoriaId);
+            _comercios = await comerciosTask;
+        }
+        catch (HttpRequestException)
+        {
+            _mensajeError = "Verificá que la API esté ejecutándose.";
+        }
+        catch (TaskCanceledException)
+        {
+            _mensajeError = "La API tardó demasiado en responder.";
+        }
+        finally
+        {
+            _cargando = false;
+        }
+    }
+
+    private string ObtenerResumenResultados()
+    {
+        return _comercios.Count switch
+        {
+            0 => "Sin servicios disponibles",
+            1 => "1 servicio encontrado",
+            _ => $"{_comercios.Count} servicios encontrados"
+        };
+    }
+}

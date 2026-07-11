@@ -1,0 +1,62 @@
+<svg class="category-svg"
+     viewBox="0 0 24 24"
+     role="img"
+     aria-label="@Descripcion"
+     fill="none"
+     stroke="currentColor"
+     stroke-width="1.9"
+     stroke-linecap="round"
+     stroke-linejoin="round">
+    @switch (Nombre)
+    {
+        case "key":
+            <circle cx="8" cy="12" r="3.5" />
+            <path d="M11.5 12H21M17 12v3M20 12v2" />
+            break;
+        case "pets":
+            <circle cx="7" cy="7" r="1.7" />
+            <circle cx="17" cy="7" r="1.7" />
+            <circle cx="4.8" cy="11.5" r="1.5" />
+            <circle cx="19.2" cy="11.5" r="1.5" />
+            <path d="M8 17c0-2.3 1.8-4.2 4-4.2s4 1.9 4 4.2c0 1.6-1.2 2.7-2.7 2.2a4.2 4.2 0 0 0-2.6 0C9.2 19.7 8 18.6 8 17Z" />
+            break;
+        case "pharmacy":
+            <rect x="4" y="4" width="16" height="16" rx="3" />
+            <path d="M12 8v8M8 12h8" />
+            break;
+        case "bolt":
+            <path d="M13.5 2 5 13h6l-.5 9L19 10h-6l.5-8Z" />
+            break;
+        case "plumbing":
+            <path d="M14.7 6.3a4 4 0 0 0-5-5l2.2 2.2-2.8 2.8-2.2-2.2a4 4 0 0 0 5 5L20 17.2a2 2 0 0 1-2.8 2.8l-8.1-8.1" />
+            <path d="m5.7 14.3-3.4 3.4a2 2 0 0 0 2.8 2.8l3.4-3.4" />
+            break;
+        case "tire_repair":
+            <circle cx="12" cy="12" r="9" />
+            <circle cx="12" cy="12" r="4" />
+            <path d="M12 3v5M12 16v5M3 12h5M16 12h5" />
+            break;
+        case "tow_truck":
+            <path d="M3 7h10v9H3zM13 10h4l3 3v3h-7z" />
+            <path d="M6 7V4h4M10 4l3 3" />
+            <circle cx="7" cy="18" r="2" />
+            <circle cx="17" cy="18" r="2" />
+            break;
+        case "gas_meter":
+            <path d="M12 2c1 4-3 5-3 9a3 3 0 0 0 6 0c0-1.5-.7-2.7-1.5-3.8 3.3 1.7 5.5 4.8 5.5 8.3A7 7 0 0 1 5 15.5C5 10.5 9 7 12 2Z" />
+            <path d="M12 13c1 1.2 2 2.1 2 3.5a2 2 0 0 1-4 0c0-1.2.8-2.4 2-3.5Z" />
+            break;
+        default:
+            <circle cx="12" cy="12" r="9" />
+            <path d="M9.5 9a2.7 2.7 0 1 1 4.2 2.2c-1 .7-1.7 1.2-1.7 2.8M12 18h.01" />
+            break;
+    }
+</svg>
+
+@code {
+    [Parameter]
+    public string? Nombre { get; set; }
+
+    [Parameter]
+    public string Descripcion { get; set; } = "Categoría";
+}
