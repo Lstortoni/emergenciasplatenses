@@ -1,0 +1,14 @@
+namespace EmergenciasPlatenses.App.Models;
+
+public class ComercioResumen
+{
+    public int Id { get; init; }
+    public string Nombre { get; init; } = string.Empty;
+    public string Direccion { get; init; } = string.Empty;
+    public string? Telefono { get; init; }
+    public bool EstaDeTurno { get; init; }
+    public int CategoriaId { get; init; }
+    public string Categoria { get; init; } = string.Empty;
+    public int CiudadId { get; init; }
+    public string Ciudad { get; init; } = string.Empty;
+}

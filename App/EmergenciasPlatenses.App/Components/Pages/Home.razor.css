@@ -1,0 +1,95 @@
+.home-header {
+    padding: 1.5rem 0 1rem;
+}
+
+.home-brand {
+    color: #dc3545;
+    font-size: 0.8rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+}
+
+.home-header h1 {
+    margin: 0.4rem 0;
+    font-size: 2rem;
+}
+
+.home-header p {
+    color: #6c757d;
+}
+
+.section-title {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.section-title h2 {
+    margin: 0;
+    font-size: 1.25rem;
+}
+
+.section-title span {
+    color: #6c757d;
+    font-size: 0.85rem;
+}
+
+.category-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 1rem;
+}
+
+.category-card,
+.status-card {
+    border: 1px solid #eceff1;
+    border-radius: 1rem;
+    background: #fff;
+    box-shadow: 0 0.25rem 0.8rem rgb(0 0 0 / 6%);
+    padding: 1rem;
+}
+
+.category-card {
+    display: flex;
+    min-height: 150px;
+    flex-direction: column;
+    gap: 0.55rem;
+}
+
+.category-card span {
+    color: #6c757d;
+    font-size: 0.85rem;
+}
+
+.category-icon {
+    display: grid;
+    width: 2.8rem;
+    height: 2.8rem;
+    place-items: center;
+    border-radius: 0.8rem;
+    background: #fff0f1;
+    color: #dc3545;
+    font-weight: 800;
+}
+
+.status-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.status-card.error {
+    border-color: #f5c2c7;
+    color: #842029;
+}
+
+.status-card button {
+    width: fit-content;
+    border: 0;
+    border-radius: 0.6rem;
+    background: #dc3545;
+    color: #fff;
+    padding: 0.55rem 1rem;
+}

@@ -1,0 +1,47 @@
+# Compilación .NET y MAUI
+**/bin/
+**/obj/
+**/artifacts/
+
+# Visual Studio, Rider y VS Code
+.vs/
+.idea/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Resultados y cobertura
+TestResults/
+coverage/
+*.coverage
+*.coveragexml
+
+# Paquetes generados para móviles
+*.apk
+*.aab
+*.ipa
+
+# Certificados y firmas
+*.pfx
+*.p12
+*.jks
+*.keystore
+
+# Secretos y configuraciones locales
+.env
+.env.*
+!.env.example
+secrets.json
+appsettings.*.local.json
+
+# Archivos del sistema operativo
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Logs y temporales
+*.log
+*.tmp
+*.bak
+~$*

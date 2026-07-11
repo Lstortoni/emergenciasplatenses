@@ -1,0 +1,21 @@
+@EmergenciasPlatenses.Api_HostAddress = http://localhost:5112
+
+GET {{EmergenciasPlatenses.Api_HostAddress}}/api/categorias
+Accept: application/json
+
+###
+
+GET {{EmergenciasPlatenses.Api_HostAddress}}/api/comercios
+Accept: application/json
+
+###
+
+GET {{EmergenciasPlatenses.Api_HostAddress}}/api/comercios?ciudadId=1&categoriaId=3&deTurno=true
+Accept: application/json
+
+###
+
+GET {{EmergenciasPlatenses.Api_HostAddress}}/api/comercios/1
+Accept: application/json
+
+###

@@ -1,0 +1,84 @@
+@page "/"
+@inject IEmergenciasApiClient ApiClient
+
+<PageTitle>Emergencias Platenses</PageTitle>
+
+<section class="home-header">
+    <span class="home-brand">EMERGENCIAS PLATENSES</span>
+    <h1>¿Qué necesitás hoy?</h1>
+    <p>Encontrá rápidamente un servicio de emergencia en La Plata.</p>
+</section>
+
+<section>
+    <div class="section-title">
+        <h2>Categorías</h2>
+        <span>Servicios disponibles</span>
+    </div>
+
+    @if (_cargando)
+    {
+        <div class="status-card">Cargando categorías...</div>
+    }
+    else if (_mensajeError is not null)
+    {
+        <div class="status-card error">
+            <strong>No pudimos conectar con la API.</strong>
+            <span>@_mensajeError</span>
+            <button @onclick="CargarCategoriasAsync">Reintentar</button>
+        </div>
+    }
+    else if (_categorias.Count == 0)
+    {
+        <div class="status-card">No hay categorías disponibles.</div>
+    }
+    else
+    {
+        <div class="category-grid">
+            @foreach (var categoria in _categorias)
+            {
+                <article class="category-card">
+                    <div class="category-icon">@ObtenerInicial(categoria.Nombre)</div>
+                    <strong>@categoria.Nombre</strong>
+                    <span>@categoria.Descripcion</span>
+                </article>
+            }
+        </div>
+    }
+</section>
+
+@code {
+    private IReadOnlyCollection<Categoria> _categorias = [];
+    private bool _cargando = true;
+    private string? _mensajeError;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await CargarCategoriasAsync();
+    }
+
+    private async Task CargarCategoriasAsync()
+    {
+        _cargando = true;
+        _mensajeError = null;
+
+        try
+        {
+            _categorias = await ApiClient.ObtenerCategoriasAsync();
+        }
+        catch (HttpRequestException)
+        {
+            _mensajeError = "Verificá que la API esté ejecutándose en http://localhost:5112.";
+        }
+        catch (TaskCanceledException)
+        {
+            _mensajeError = "La API tardó demasiado en responder.";
+        }
+        finally
+        {
+            _cargando = false;
+        }
+    }
+
+    private static string ObtenerInicial(string nombre) =>
+        string.IsNullOrWhiteSpace(nombre) ? "?" : nombre[..1].ToUpperInvariant();
+}
