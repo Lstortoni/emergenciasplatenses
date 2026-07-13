@@ -9,6 +9,11 @@
     <span class="eyebrow">Resultados</span>
     <h1>@(_categoria?.Nombre ?? "Comercios")</h1>
 
+    <div class="test-location">
+        <span aria-hidden="true">⌖</span>
+        Ubicación de prueba en La Plata
+    </div>
+
     @if (!_cargando && _mensajeError is null)
     {
         <p>@ObtenerResumenResultados()</p>
@@ -53,13 +58,20 @@ else
                         <h2>@comercio.Nombre</h2>
                     </div>
 
-                    @if (comercio.EstaDeTurno)
+                    @if (comercio.Atiende24Horas)
                     {
-                        <span class="on-duty">De turno</span>
+                        <span class="on-duty">24 horas</span>
                     }
                 </div>
 
                 <p class="address">@comercio.Direccion</p>
+
+                @if (comercio.DistanciaKm.HasValue)
+                {
+                    <p class="distance">
+                        A @FormatearDistancia(comercio.DistanciaKm.Value) de tu ubicación
+                    </p>
+                }
 
                 @if (!string.IsNullOrWhiteSpace(comercio.Telefono))
                 {
@@ -73,6 +85,9 @@ else
 }
 
 @code {
+    private const decimal LatitudPrueba = -34.9212m;
+    private const decimal LongitudPrueba = -57.9545m;
+
     [Parameter]
     public int CategoriaId { get; set; }
 
@@ -96,7 +111,10 @@ else
         try
         {
             var categoriasTask = ApiClient.ObtenerCategoriasAsync();
-            var comerciosTask = ApiClient.ObtenerComerciosAsync(categoriaId: CategoriaId);
+            var comerciosTask = ApiClient.ObtenerComerciosAsync(
+                categoriaId: CategoriaId,
+                latitud: LatitudPrueba,
+                longitud: LongitudPrueba);
 
             await Task.WhenAll(categoriasTask, comerciosTask);
 
@@ -126,5 +144,12 @@ else
             1 => "1 servicio encontrado",
             _ => $"{_comercios.Count} servicios encontrados"
         };
+    }
+
+    private static string FormatearDistancia(double distanciaKm)
+    {
+        return distanciaKm < 1
+            ? $"{Math.Round(distanciaKm * 1000):0} m"
+            : $"{distanciaKm:0.0} km";
     }
 }

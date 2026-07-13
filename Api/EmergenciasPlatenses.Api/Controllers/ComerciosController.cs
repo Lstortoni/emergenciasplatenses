@@ -13,9 +13,46 @@ public class ComerciosController(IComercioService comercioService) : ControllerB
     public async Task<ActionResult<IReadOnlyCollection<ComercioResumenDto>>> ObtenerComercios(
         [FromQuery] int? categoriaId,
         [FromQuery] int? ciudadId,
-        [FromQuery] bool? deTurno)
+        [FromQuery] bool? atiende24Horas,
+        [FromQuery] decimal? latitud,
+        [FromQuery] decimal? longitud)
     {
-        return Ok(await comercioService.ObtenerComerciosAsync(categoriaId, ciudadId, deTurno));
+        if (latitud.HasValue != longitud.HasValue)
+        {
+            return BadRequest(new ProblemDetails
+            {
+                Title = "Ubicación incompleta",
+                Detail = "Latitud y longitud deben enviarse juntas.",
+                Status = StatusCodes.Status400BadRequest
+            });
+        }
+
+        if (latitud is < -90 or > 90)
+        {
+            return BadRequest(new ProblemDetails
+            {
+                Title = "Latitud inválida",
+                Detail = "La latitud debe estar entre -90 y 90.",
+                Status = StatusCodes.Status400BadRequest
+            });
+        }
+
+        if (longitud is < -180 or > 180)
+        {
+            return BadRequest(new ProblemDetails
+            {
+                Title = "Longitud inválida",
+                Detail = "La longitud debe estar entre -180 y 180.",
+                Status = StatusCodes.Status400BadRequest
+            });
+        }
+
+        return Ok(await comercioService.ObtenerComerciosAsync(
+            categoriaId,
+            ciudadId,
+            atiende24Horas,
+            latitud,
+            longitud));
     }
 
     [HttpGet("{id:int}")]

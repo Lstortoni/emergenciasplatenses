@@ -15,7 +15,7 @@ public class ComercioRepositoryEnMemoria : IComercioRepository
     [
         new() { Id = 1, Nombre = "Cerrajerías", Descripcion = "Aperturas y reparaciones de urgencia", Icono = "key" },
         new() { Id = 2, Nombre = "Veterinarias", Descripcion = "Atención veterinaria de urgencia", Icono = "pets" },
-        new() { Id = 3, Nombre = "Farmacias de turno", Descripcion = "Farmacias abiertas o de turno", Icono = "pharmacy" },
+        new() { Id = 3, Nombre = "Farmacias", Descripcion = "Farmacias y servicios farmacéuticos", Icono = "pharmacy" },
         new() { Id = 4, Nombre = "Electricistas", Descripcion = "Emergencias eléctricas", Icono = "bolt" },
         new() { Id = 5, Nombre = "Plomeros", Descripcion = "Reparaciones sanitarias urgentes", Icono = "plumbing" },
         new() { Id = 6, Nombre = "Gomerías", Descripcion = "Auxilio y reparación de neumáticos", Icono = "tire_repair" },
@@ -60,7 +60,7 @@ public class ComercioRepositoryEnMemoria : IComercioRepository
     public Task<IReadOnlyCollection<Comercio>> ObtenerComerciosAsync(
         int? categoriaId,
         int? ciudadId,
-        bool? deTurno)
+        bool? atiende24Horas)
     {
         var consulta = Comercios.Where(comercio => comercio.Activo);
 
@@ -74,9 +74,10 @@ public class ComercioRepositoryEnMemoria : IComercioRepository
             consulta = consulta.Where(comercio => comercio.Direccion.CiudadId == ciudadId.Value);
         }
 
-        if (deTurno.HasValue)
+        if (atiende24Horas.HasValue)
         {
-            consulta = consulta.Where(comercio => comercio.EstaDeTurno == deTurno.Value);
+            consulta = consulta.Where(
+                comercio => comercio.Atiende24Horas == atiende24Horas.Value);
         }
 
         IReadOnlyCollection<Comercio> resultado = consulta
@@ -99,7 +100,7 @@ public class ComercioRepositoryEnMemoria : IComercioRepository
         string telefono,
         string? whatsApp,
         string horario,
-        bool estaDeTurno,
+        bool atiende24Horas,
         int categoriaId,
         string calle,
         string numero,
@@ -117,7 +118,7 @@ public class ComercioRepositoryEnMemoria : IComercioRepository
             Telefono = telefono,
             WhatsApp = whatsApp,
             Horario = horario,
-            EstaDeTurno = estaDeTurno,
+            Atiende24Horas = atiende24Horas,
             CategoriaId = categoria.Id,
             Categoria = categoria,
             Direccion = new Direccion

@@ -10,12 +10,22 @@ Accept: application/json
 
 ###
 
-GET {{EmergenciasPlatenses.Api_HostAddress}}/api/comercios?ciudadId=1&categoriaId=3&deTurno=true
+GET {{EmergenciasPlatenses.Api_HostAddress}}/api/comercios?ciudadId=1&categoriaId=3&atiende24Horas=true
 Accept: application/json
 
 ###
 
 GET {{EmergenciasPlatenses.Api_HostAddress}}/api/comercios/1
+Accept: application/json
+
+###
+
+GET {{EmergenciasPlatenses.Api_HostAddress}}/api/comercios?categoriaId=3&latitud=-34.9212&longitud=-57.9545
+Accept: application/json
+
+###
+
+GET {{EmergenciasPlatenses.Api_HostAddress}}/api/comercios?latitud=-34.9212
 Accept: application/json
 
 ###

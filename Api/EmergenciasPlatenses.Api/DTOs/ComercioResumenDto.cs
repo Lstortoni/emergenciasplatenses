@@ -10,7 +10,7 @@ public class ComercioResumenDto
 
     public string? Telefono { get; init; }
 
-    public bool EstaDeTurno { get; init; }
+    public bool Atiende24Horas { get; init; }
 
     public int CategoriaId { get; init; }
 
@@ -19,4 +19,10 @@ public class ComercioResumenDto
     public int CiudadId { get; init; }
 
     public string Ciudad { get; init; } = string.Empty;
+
+    public decimal? Latitud { get; init; }
+
+    public decimal? Longitud { get; init; }
+
+    public double? DistanciaKm { get; init; }
 }

@@ -10,7 +10,9 @@ public interface IEmergenciasApiClient
     Task<IReadOnlyCollection<ComercioResumen>> ObtenerComerciosAsync(
         int? categoriaId = null,
         int? ciudadId = null,
-        bool? deTurno = null,
+        bool? atiende24Horas = null,
+        decimal? latitud = null,
+        decimal? longitud = null,
         CancellationToken cancellationToken = default);
 
     Task<ComercioDetalle?> ObtenerComercioAsync(

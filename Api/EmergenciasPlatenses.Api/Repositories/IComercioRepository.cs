@@ -9,7 +9,7 @@ public interface IComercioRepository
     Task<IReadOnlyCollection<Comercio>> ObtenerComerciosAsync(
         int? categoriaId,
         int? ciudadId,
-        bool? deTurno);
+        bool? atiende24Horas);
 
     Task<Comercio?> ObtenerPorIdAsync(int id);
 }

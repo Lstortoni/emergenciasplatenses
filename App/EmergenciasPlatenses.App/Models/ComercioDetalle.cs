@@ -8,7 +8,7 @@ public class ComercioDetalle
     public string? Telefono { get; init; }
     public string? WhatsApp { get; init; }
     public string? Horario { get; init; }
-    public bool EstaDeTurno { get; init; }
+    public bool Atiende24Horas { get; init; }
     public int CategoriaId { get; init; }
     public string Categoria { get; init; } = string.Empty;
     public int CiudadId { get; init; }

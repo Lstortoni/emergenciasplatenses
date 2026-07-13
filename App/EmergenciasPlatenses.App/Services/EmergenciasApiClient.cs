@@ -1,4 +1,5 @@
 using System.Net;
+using System.Globalization;
 using System.Net.Http.Json;
 using EmergenciasPlatenses.App.Models;
 
@@ -17,7 +18,9 @@ public class EmergenciasApiClient(HttpClient httpClient) : IEmergenciasApiClient
     public async Task<IReadOnlyCollection<ComercioResumen>> ObtenerComerciosAsync(
         int? categoriaId = null,
         int? ciudadId = null,
-        bool? deTurno = null,
+        bool? atiende24Horas = null,
+        decimal? latitud = null,
+        decimal? longitud = null,
         CancellationToken cancellationToken = default)
     {
         var parametros = new List<string>();
@@ -32,9 +35,22 @@ public class EmergenciasApiClient(HttpClient httpClient) : IEmergenciasApiClient
             parametros.Add($"ciudadId={ciudadId.Value}");
         }
 
-        if (deTurno.HasValue)
+        if (atiende24Horas.HasValue)
         {
-            parametros.Add($"deTurno={deTurno.Value.ToString().ToLowerInvariant()}");
+            parametros.Add(
+                $"atiende24Horas={atiende24Horas.Value.ToString().ToLowerInvariant()}");
+        }
+
+        if (latitud.HasValue)
+        {
+            parametros.Add(
+                $"latitud={latitud.Value.ToString(CultureInfo.InvariantCulture)}");
+        }
+
+        if (longitud.HasValue)
+        {
+            parametros.Add(
+                $"longitud={longitud.Value.ToString(CultureInfo.InvariantCulture)}");
         }
 
         var ruta = "api/comercios";

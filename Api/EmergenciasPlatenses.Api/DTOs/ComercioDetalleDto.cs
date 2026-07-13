@@ -14,7 +14,7 @@ public class ComercioDetalleDto
 
     public string? Horario { get; init; }
 
-    public bool EstaDeTurno { get; init; }
+    public bool Atiende24Horas { get; init; }
 
     public int CategoriaId { get; init; }
 

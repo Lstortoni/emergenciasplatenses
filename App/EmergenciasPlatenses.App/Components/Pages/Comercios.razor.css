@@ -28,6 +28,19 @@
     color: #6c757d;
 }
 
+.test-location {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin: 0.7rem 0;
+    border-radius: 999px;
+    background: #fff0f1;
+    color: #b4232f;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 0.4rem 0.7rem;
+}
+
 .commerce-list {
     display: grid;
     gap: 1rem;
@@ -70,9 +83,16 @@
 }
 
 .address,
-.phone {
+.phone,
+.distance {
     margin: 0.8rem 0 0;
     color: #495057;
+}
+
+.distance {
+    color: #147d64;
+    font-size: 0.85rem;
+    font-weight: 700;
 }
 
 .phone {

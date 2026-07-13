@@ -31,7 +31,7 @@ public class ComercioConfiguration : IEntityTypeConfiguration<Comercio>
         builder.Property(comercio => comercio.Horario)
             .HasMaxLength(200);
 
-        builder.Property(comercio => comercio.EstaDeTurno)
+        builder.Property(comercio => comercio.Atiende24Horas)
             .IsRequired();
 
         builder.Property(comercio => comercio.Activo)
@@ -52,7 +52,7 @@ public class ComercioConfiguration : IEntityTypeConfiguration<Comercio>
         builder.HasIndex(comercio => new
         {
             comercio.Activo,
-            comercio.EstaDeTurno
+            comercio.Atiende24Horas
         });
     }
 }
